@@ -1,0 +1,37 @@
+{
+  "name": "POE CN Export",
+  "description": "Export POE CN's data for POB.",
+  "version": "1.0",
+  "manifest_version": 3,
+  "content_scripts": [
+    {
+      "matches": [
+        "https://poe.game.qq.com/trade/search/*"
+      ],
+      "js": [
+        "trade.js"
+      ]
+    },
+    {
+      "matches": [
+        "https://poe.game.qq.com/account/view-profile/*"
+      ],
+      "js": [
+        "/js/chunk-vendors.js",
+        "/js/export.js"
+      ],
+      "css":[
+        "/export.css",
+        "/css/export.css"
+      ]
+    }
+  ],
+  "permissions": [
+    "clipboardRead",
+    "clipboardWrite"
+  ],
+  "action": {
+    "default_popup": "index.html",
+    "default_icon": "index.png"
+  }
+}
