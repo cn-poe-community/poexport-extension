@@ -1,10 +1,11 @@
 import { createApp } from 'vue'
 import Export from './Export.vue'
 
-(function () {
-    let container = document.createElement("div")
-    container.id = "pobCNExport"
-    document.body.appendChild(container)
-})()
-
-createApp(Export).mount('#pobCNExport')
+chrome.storage.local.get({ bdExportEnabled: true }, (res) => {
+    if (res.bdExportEnabled) {
+        let container = document.createElement("div")
+        container.id = "pobCNExport"
+        document.body.appendChild(container)
+        createApp(Export).mount('#pobCNExport')
+    }
+})
