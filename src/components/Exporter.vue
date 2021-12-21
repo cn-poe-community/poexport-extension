@@ -10,7 +10,11 @@
   </span>
   <span class="line-container">
     <div v-if="selectReady">
-      <select v-model="leagueSelected" v-if="selectReady">
+      <select
+        v-model="leagueSelected"
+        v-if="selectReady"
+        @change="leagueSelectedChanged"
+      >
         <option v-for="item in leagues" :key="item" :value="item">
           {{ item }}
         </option>
@@ -81,22 +85,20 @@ export default {
       return this.passiveSkillsCode.substring(0, 50);
     },
   },
-  watch: {
-    leagueSelected(newValue) {
+  methods: {
+    leagueSelectedChanged() {
       let list = [];
       for (let c of this.characters) {
-        if (c.league === newValue) {
+        if (c.league === this.leagueSelected) {
           list.push(c);
         }
       }
 
-      this.charactersShown = list;
       if (list) {
         this.characterSelected = list[0].name;
       }
+      this.charactersShown = list;
     },
-  },
-  methods: {
     getCharacters() {
       const url = "/character-window/get-characters";
       const realm = this.realm;
@@ -123,8 +125,9 @@ export default {
           let leaguesArray = Array.from(leagues);
           vm.leagues = leaguesArray;
 
-          if (leaguesArray) {
+          if (leaguesArray.length > 0) {
             vm.leagueSelected = leaguesArray[0];
+            vm.leagueSelectedChanged();
           }
         })
         .catch(function (error) {
