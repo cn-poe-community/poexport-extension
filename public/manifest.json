@@ -1,7 +1,7 @@
 {
   "name": "POE CN Export",
   "description": "Export POE CN's data for POB.",
-  "version": "3.16.6",
+  "version": "3.16.8",
   "manifest_version": 3,
   "content_scripts": [
     {
