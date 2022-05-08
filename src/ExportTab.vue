@@ -89,6 +89,17 @@ export default {
           console.log(error);
         });
     },
+    getLeagueShowText(league) {
+      let showText = league;
+      showText = showText.replace("永久", "standard");
+      showText = showText.replace("虚空", "void");
+      showText = showText.replace("赛季", "");
+      showText = showText.replace("（独狼）", "(SSF)");
+      showText = showText.replace("（专家）", "(HC)");
+      showText = showText.replace("（独狼专家）", "(SSF HC)");
+
+      return showText;
+    },
   },
   mounted() {
     let tab = this;
@@ -112,6 +123,9 @@ export default {
           let accountName = url.searchParams.get("accountName");
           let realm = url.searchParams.get("realm");
           tab.getCharacters(accountName, realm, function (data) {
+            for (let character of data) {
+              character.league = tab.getLeagueShowText(character.league);
+            }
             conn.send(JSON.stringify(data));
           });
         } else if (pathname.startsWith("/account/view-profile/")) {

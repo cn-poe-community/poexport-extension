@@ -4,7 +4,7 @@ module.exports = {
   productionSourceMap: false,
   filenameHashing: false,
   pages: {
-    index: { entry: 'src/main.js' },
+    index: { entry: 'src/options.js' },
     export: { entry: 'src/export.js' }
   },
   devServer: {
