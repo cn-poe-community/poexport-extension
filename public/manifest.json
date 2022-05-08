@@ -1,5 +1,5 @@
 {
-  "name": "POE CN Export",
+  "name": "Exporter of Exile CN",
   "description": "Export POE CN's data for POB.",
   "version": "3.16.10",
   "manifest_version": 3,
@@ -24,8 +24,7 @@
         "/js/export.js"
       ],
       "css":[
-        "/export.css",
-        "/css/export.css"
+        "/export.css"
       ]
     }
   ],
