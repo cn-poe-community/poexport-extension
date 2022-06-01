@@ -10,7 +10,7 @@
   "dependencies": {
     "axios": "^0.24.0",
     "core-js": "^3.6.5",
-    "poe-cn-export-translator": "file:../poe-cn-export-translator",
+    "exporter-of-exile-cn-translator": "file:../exporter-of-exile-cn-translator",
     "vue": "^3.0.0"
   },
   "devDependencies": {

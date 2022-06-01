@@ -1,6 +1,8 @@
 import {
-    translateGoods
-} from "poe-cn-export-translator";
+    Translator
+} from "exporter-of-exile-cn-translator";
+
+const translator = new Translator();
 
 chrome.storage.local.get({ goodsTransEnabled: true }, (res) => {
     if (res.goodsTransEnabled) {
@@ -22,5 +24,5 @@ function isItemCode(text) {
 }
 
 function translate(text) {
-    return translateGoods(text);
+    return translator.translateGoods(text);
 }
