@@ -32,18 +32,6 @@
       </button></label
     >
   </div>
-  <div class="panel-line">
-    <label
-      ><span>POB路径</span
-      ><input type="text" class="path-input" v-model="pobPath" /><button
-        type="button"
-        class="update"
-        @click="updatePob"
-      >
-        更新
-      </button></label
-    >
-  </div>
 </template>
 <script>
 import axios from "axios";
@@ -55,7 +43,6 @@ export default {
       goodsTransEnabled: true,
       bdExportEnabled: true,
       listenPort: 0,
-      pobPath: "",
     };
   },
   methods: {
@@ -71,21 +58,6 @@ export default {
       chrome.storage.local.set({ listenPort: this.listenPort });
       alert("success");
     },
-    updatePob() {
-      chrome.storage.local.set({ pobPath: this.pobPath });
-      const url = `http://localhost:${this.listenPort}/pob/patch`;
-
-      const params = new URLSearchParams({ filePath: this.pobPath });
-
-      axios
-        .post(url, params)
-        .then(function (res) {
-          alert(res.data.msg);
-        })
-        .catch(function (error) {
-          alert(error);
-        });
-    },
   },
   mounted() {
     chrome.storage.local.get({ goodsTransEnabled: true }, (res) => {
@@ -96,9 +68,6 @@ export default {
     });
     chrome.storage.local.get({ listenPort: 8655 }, (res) => {
       this.listenPort = res.listenPort;
-    });
-    chrome.storage.local.get({ pobPath: "" }, (res) => {
-      this.pobPath = res.pobPath;
     });
   },
 };
