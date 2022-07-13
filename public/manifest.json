@@ -34,7 +34,8 @@
     "storage"
   ],
   "action": {
-    "default_icon": "index.png"
+    "default_icon": "index.png",
+    "default_popup": "menu.html"
   },
   "options_page": "index.html"
 }

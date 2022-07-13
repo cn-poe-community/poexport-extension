@@ -1,0 +1,19 @@
+body {
+    width: 180px;
+    margin: 0;
+}
+
+.menu-line {
+    line-height: 30px;
+    margin: 2px auto;
+    user-select: none;
+}
+
+.menu-line:hover {
+    background-color: rgb(228, 231, 234);
+}
+
+.line-container {
+    width: 160px;
+    padding: 0 10px;
+}
