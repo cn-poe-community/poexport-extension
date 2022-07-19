@@ -75,16 +75,24 @@ export default {
 * {
   font-size: 16px;
 }
+
 .panel-line {
   margin: 3px;
 }
+
+.panel-line button {
+  user-select: none;
+}
+
 .panel-line > label > input {
   margin-left: 8px;
 }
+
 .port-input {
   width: 50px;
   height: 15px;
 }
+
 .update {
   margin-left: 10px;
   font-size: 14px;
