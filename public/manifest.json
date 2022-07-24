@@ -1,7 +1,7 @@
 {
   "name": "Exporter of Exile CN",
   "description": "Export POE CN's data for POB.",
-  "version": "3.16.10",
+  "version": "3.18.0",
   "manifest_version": 3,
   "content_scripts": [
     {
