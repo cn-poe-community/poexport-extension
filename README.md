@@ -1,6 +1,9 @@
 # poe-cn-export
+POE国服导出工具。
 
-This template should help get you started developing with Vue 3 in Vite.
+The export tool of POE tencent server.
+
+![alt text](https://github.com/me1ting/exporter-of-exile-cn/blob/master/preview.png?raw=true "Title")
 
 # development
 
