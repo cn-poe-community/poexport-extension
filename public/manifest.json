@@ -1,41 +1,17 @@
 {
-  "name": "Exporter of Exile CN",
-  "description": "Export POE CN's data for POB.",
-  "version": "3.18.0",
+  "name": "POE CN Export",
+  "description": "POE国服导出工具",
+  "version": "3.19.0",
   "manifest_version": 3,
-  "content_scripts": [
-    {
-      "matches": [
-        "https://poe.game.qq.com/trade/search/*"
-      ],
-      "js": [
-        "/js/chunk-common.js",
-        "/js/chunk-vendors.js",
-        "/js/trade.js"
-      ]
-    },
-    {
-      "matches": [
-        "https://poe.game.qq.com/account/view-profile/*"
-      ],
-      "js": [
-        "/js/chunk-common.js",
-        "/js/chunk-vendors.js",
-        "/js/export.js"
-      ],
-      "css":[
-        "/export.css"
-      ]
-    }
+  "host_permissions": [
+    "https://*.poe.game.qq.com/"
   ],
   "permissions": [
-    "clipboardRead",
     "clipboardWrite",
-    "storage"
+    "cookies"
   ],
   "action": {
     "default_icon": "index.png",
-    "default_popup": "menu.html"
-  },
-  "options_page": "index.html"
+    "default_popup": "index.html"
+  }
 }

@@ -1,24 +1,25 @@
-# poe-cn-export-extension-vue
+# poe-cn-export
 
-## Project setup
-```
+This template should help get you started developing with Vue 3 in Vite.
+
+# development
+
+Project Setup
+```sh
 npm install
 ```
 
-### Compiles and hot-reloads for development
-```
-npm run serve
+Compile and Hot-Reload for Development
+```sh
+npm run dev
 ```
 
-### Compiles and minifies for production
-```
+Compile and Minify for Production
+```sh
 npm run build
 ```
 
-### Lints and fixes files
-```
+Lint with [ESLint](https://eslint.org/)
+```sh
 npm run lint
 ```
-
-### Customize configuration
-See [Configuration Reference](https://cli.vuejs.org/config/).
