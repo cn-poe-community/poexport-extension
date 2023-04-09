@@ -1,9 +1,7 @@
-# poe-cn-export
+# cn-poe-export-extension
 POE国服导出工具。
 
-The export tool of POE tencent server.
-
-![alt text](https://github.com/me1ting/exporter-of-exile-cn/blob/master/preview.png?raw=true "Title")
+![alt text](https://github.com/me1ting/cn-poe-export-extension/blob/master/preview.png?raw=true "Title")
 
 # development
 
