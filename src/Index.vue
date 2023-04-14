@@ -1,24 +1,39 @@
 <script>
+import axios from "axios";
+const TEST_URL = "https://poe.game.qq.com/trade";
+
 export default {
   data() {
     return {
-      poeSessionId: "",
+      poeSessId: "",
     };
   },
   mounted() {
     const url = "https://poe.game.qq.com";
     const sessionName = "POESESSID";
 
-    const that = this;
-    chrome.cookies.get({ url: url, name: sessionName }, function (cookie) {
+    chrome.cookies.get({ url: url, name: sessionName }, (cookie) => {
       if (cookie) {
-        that.poeSessionId = cookie.value;
+        const session = cookie.value;
+        this.poeSessId = session;
+        axios
+          .get(TEST_URL, {
+            maxRedirects: 0,
+          })
+          .catch(() => {
+            this.poeSessId = "";
+          })
+          .then((res) => {
+            if (res.data.includes("创建游戏账号")) {
+              this.poeSessId = "";
+            }
+          });
       }
     });
   },
   methods: {
-    copyPOESessionId() {
-      navigator.clipboard.writeText(this.poeSessionId);
+    copyPoeSessId() {
+      navigator.clipboard.writeText(this.poeSessId);
     },
   },
 };
@@ -26,19 +41,17 @@ export default {
 
 <template>
   <div class="part">
-    <label for="poeSessionId">POESESSID:</label>
+    <label for="poeSessId">POESESSID:</label>
     <div class="line">
       <input
-        name="poeSessionId"
+        name="poeSessId"
         disabled
         maxlength="25"
-        :value="poeSessionId"
+        :value="poeSessId"
         type="password"
-        placeholder="POE论坛账户未登陆"
+        placeholder="论坛账户未登陆"
       />
-      <button @click="copyPOESessionId" :disabled="poeSessionId === ''">
-        复制
-      </button>
+      <button @click="copyPoeSessId" :disabled="poeSessId === ''">复制</button>
     </div>
   </div>
 </template>
