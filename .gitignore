@@ -11,6 +11,7 @@ node_modules
 .DS_Store
 dist
 dist-ssr
+dist-monkey
 coverage
 *.local
 
@@ -26,3 +27,5 @@ coverage
 *.njsproj
 *.sln
 *.sw?
+
+*.tsbuildinfo

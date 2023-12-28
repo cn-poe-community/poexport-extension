@@ -3,17 +3,11 @@
   "description": "POE国服导出工具",
   "version": "1.1.0",
   "manifest_version": 3,
-  "host_permissions": [
-    "https://*.poe.game.qq.com/"
-  ],
-  "permissions": [
-    "clipboardWrite",
-    "cookies",
-    "storage"
-  ],
+  "host_permissions": ["https://*.poe.game.qq.com/"],
+  "permissions": ["clipboardWrite", "cookies", "storage"],
   "action": {
     "default_icon": "index.png",
-    "default_popup": "index.html"
+    "default_popup": "pages/popup.html"
   },
   "background": {
     "service_worker": "export_wroker.js",
@@ -26,24 +20,14 @@
         "https://poe.game.qq.com/account/view-profile/*",
         "https://poe.game.qq.com/forum"
       ],
-      "js": [
-        "export_loader.js"
-      ],
-      "css": [
-        "exporter.css",
-        "export.css"
-      ]
+      "js": ["export_loader.js"],
+      "css": ["export.css"]
     }
   ],
   "web_accessible_resources": [
     {
-      "resources": [
-        "export.js",
-        "plugin-vue-export-helper.js"
-      ],
-      "matches": [
-        "https://poe.game.qq.com/*"
-      ]
+      "resources": ["export.js", "plugin-vue-export-helper.js"],
+      "matches": ["https://poe.game.qq.com/*"]
     }
   ]
 }

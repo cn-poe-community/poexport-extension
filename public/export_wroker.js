@@ -1,113 +1,118 @@
-const QUERY_SERVER_URL = "https://poe.pathofrun.com/export/server";
+const QUERY_SERVER_URL = 'https://poe.pathof.top/export/server'
 
 async function getServer() {
-  const result = await chrome.storage.local.get("exportServer");
-  return result.exportServer;
+  const { exportServer } = await chrome.storage.local.get('exportServer')
+  return exportServer
 }
 
 async function setServer(server) {
-  return chrome.storage.local.set({ exportServer: server });
+  return chrome.storage.local.set({ exportServer: server })
 }
 
 async function checkServer() {
-  const server = await getServer();
-  console.log(`checking server ${server}`);
+  console.log(`checking server status`)
+  const server = await getServer()
   if (!server || server.length === 0) {
-    return false;
+    console.log(`no available server in storage`)
+    return false
   }
   try {
-    const res = await fetch(`${server}/status`);
+    console.log(`checking server ${server}`)
+    const res = await fetch(`${server}/status`)
     if (res.status !== 200) {
-      return false;
+      console.log(`server ${server} returns ${res.status}`)
+      return false
     }
-    const json = await res.json();
+    const json = await res.json()
     if (!json.code || json.code !== 200) {
-      return false;
+      console.log(`server ${server} returns ${json}`)
+      return false
     }
   } catch (err) {
-    console.log(err);
-    return false;
+    console.log(err)
+    return false
   }
-  return true;
+  console.log(`server ${server} works well`)
+  return true
 }
 
 async function loadServer() {
   try {
-    const res = await fetch(QUERY_SERVER_URL);
+    const res = await fetch(QUERY_SERVER_URL)
     if (res.status !== 200) {
-      return;
+      console.log(`load server failed: ${res.status}`)
+      return
     }
-    const server = await res.text();
-    console.log(`loaded server ${server}`);
-    await setServer(server);
+    const server = await res.text()
+    console.log(`loaded server ${server}`)
+    await setServer(server)
   } catch (err) {
-    console.log(err);
+    console.log(err)
   }
 }
 
 async function onLoad() {
-  const right = await checkServer();
-  if (!right) {
-    console.log("reloading server");
-    loadServer();
+  const ok = await checkServer()
+  if (!ok) {
+    console.log('reloading server')
+    loadServer()
   }
-  console.log("server works well");
 }
 
 async function transform(compressed, sendResponse) {
-  const server = await getServer();
+  const server = await getServer()
   if (!server || server.length === 0) {
     sendResponse({
       code: 1,
-      msg: "服务端无法访问",
-    });
-    return;
+      msg: '无可用Export服务器，刷新重试或联系开发者'
+    })
+    return
   }
   try {
-    console.log(`fetch ${server}/transform`);
+    console.log(`fetching ${server}/transform`)
     const res = await fetch(`${server}/transform`, {
-      method: "post",
+      method: 'post',
       headers: {
-        "Content-type": "octet-stream",
+        'Content-type': 'octet-stream'
       },
-      body: compressed,
-    });
+      body: compressed
+    })
     if (res.status !== 200) {
       sendResponse({
         code: 1,
-        msg: `HTTP错误: ${res.status}`,
-      });
-      return;
+        msg: `导出错误: ${res.status}`
+      })
+      return
     }
-    const apiResp = await res.json();
-    const code = apiResp.code;
+    const apiResp = await res.json()
+    const code = apiResp.code
     if (code !== 200) {
       sendResponse({
         code: 1,
-        msg: `请求错误: ${apiResp.msg}`,
-      });
-      return;
+        msg: `导出错误: ${apiResp.msg}`
+      })
+      return
     }
 
     sendResponse({
       code: 0,
-      data: apiResp.data.xml,
-    });
+      data: apiResp.data.xml
+    })
   } catch (err) {
-    console.log(err);
+    console.log(err)
     sendResponse({
       code: 1,
-      msg: `请求错误: ${err}`,
-    });
+      msg: `${err}`
+    })
   }
 }
 
 chrome.runtime.onMessage.addListener(function (request, sender, sendResponse) {
-  if (request.task === "load") {
-    onLoad();
-  } else if (request.task === "transform") {
+  if (request.task === 'load') {
+    onLoad()
+  } else if (request.task === 'transform') {
     const data = new Uint8Array(request.compressed)
-    transform(data, sendResponse);
+    transform(data, sendResponse)
   }
-  return true;
-});
+  return true
+})

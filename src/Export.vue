@@ -1,24 +1,26 @@
-<script>
-import Exporter from "./components/Exporter.vue";
+<script setup lang="ts">
+import Exporter from './components/Exporter.vue'
+import pako from 'Pako'
 
-export default {
-  name: "Export",
-  components: {
-    exporter: Exporter,
-  },
-  methods: {
-    getInitialAccountName() {
-      let pattern = new RegExp("/account/view-profile/([^/?]+)");
-      let match = pattern.exec(window.location.href);
-      if (match) {
-        return decodeURI(match[1]);
-      }
-      return "";
-    },
-  },
-};
+async function createBuilding(items: any, passiveSkills: any) {
+  const building = { items, passiveSkills }
+  const compressed = pako.deflate(JSON.stringify(building))
+  const { code, data, msg } = await chrome.runtime.sendMessage({
+    task: 'transform',
+    compressed: Array.from(compressed)
+  })
+  if (code > 0) {
+    throw new Error(msg)
+  }
+
+  return data
+}
+
+function startup() {
+  chrome.runtime.sendMessage({ task: 'load' })
+}
 </script>
 
 <template>
-  <exporter :initialAccountName="getInitialAccountName()"></exporter>
+  <Exporter :create-building="createBuilding" :startup="startup" />
 </template>
