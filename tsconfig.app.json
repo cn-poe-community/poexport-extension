@@ -9,6 +9,6 @@
     "paths": {
       "@/*": ["./src/*"]
     },
-    "lib": ["ES2020","ES2021.String","DOM","DOM.Iterable"]
+    "lib": ["ES2020", "ES2021.String", "DOM", "DOM.Iterable"]
   }
 }

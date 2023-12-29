@@ -10,7 +10,7 @@
     "build-only": "vite build",
     "type-check": "vue-tsc --build --force",
     "lint": "eslint . --ext .vue,.js,.jsx,.cjs,.mjs,.ts,.tsx,.cts,.mts --fix --ignore-path .gitignore",
-    "format": "prettier --write src/ public/",
+    "format": "prettier --write src/ public/ *.ts *.json *.cjs",
     "build-monkey": "vite build --config mokey.vite.config.ts"
   },
   "dependencies": {
