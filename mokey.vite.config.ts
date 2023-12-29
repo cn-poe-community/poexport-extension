@@ -28,6 +28,16 @@ export default defineConfig({
       input: {
         monkey: resolve(__dirname, "pages/monkey.html"),
       },
+      output: {
+        format: 'iife',
+        globals: {
+          vue: 'Vue',
+          'cn-poe-export-db': 'CnPoeExportDb',
+          'cn-poe-translator': 'CnPoeTranslator',
+          'pob-building-creater': 'BuildingCreater',
+          axios: 'axios'
+        }
+      }
     },
     outDir: "dist-monkey",
     copyPublicDir: false,
