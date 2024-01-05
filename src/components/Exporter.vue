@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { computed, reactive, ref, onMounted } from 'vue'
-import poeapi from '../lib/poeapi'
+import * as poeapi from '../lib/poeapi'
 
 const props = defineProps(['createBuilding', 'startup'])
 

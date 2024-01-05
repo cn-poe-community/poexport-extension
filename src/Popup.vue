@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { ref, onMounted } from 'vue'
-import poeapi from './lib/poeapi.js'
+import * as poeapi from './lib/poeapi.js'
 
 const POE_FORUM_URL = 'https://poe.game.qq.com'
 const SESSION_NAME = 'POESESSID'

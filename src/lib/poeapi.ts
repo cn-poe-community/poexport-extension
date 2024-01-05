@@ -5,7 +5,7 @@ const GET_CHARACTERS_URL = '/character-window/get-characters'
 const GET_ITEMS_URL = '/character-window/get-items'
 const GET_PASSIVE_SKILLS_URL = '/character-window/get-passive-skills'
 
-async function profile(): Promise<any> {
+export async function profile(): Promise<any> {
   try {
     const { data } = await axios.get(PROFILE_URL)
     return data
@@ -14,7 +14,7 @@ async function profile(): Promise<any> {
   }
 }
 
-async function getCharacters(accountName: string, realm: string): Promise<any> {
+export async function getCharacters(accountName: string, realm: string): Promise<any> {
   const form = new URLSearchParams()
   form.append('accountName', accountName)
   form.append('realm', realm)
@@ -27,7 +27,7 @@ async function getCharacters(accountName: string, realm: string): Promise<any> {
   }
 }
 
-async function getItems(accountName: string, character: string, realm: string): Promise<any> {
+export async function getItems(accountName: string, character: string, realm: string): Promise<any> {
   const form = new URLSearchParams()
   form.append('accountName', accountName)
   form.append('character', character)
@@ -41,7 +41,7 @@ async function getItems(accountName: string, character: string, realm: string): 
   }
 }
 
-async function getPassiveSkills(
+export async function getPassiveSkills(
   accountName: string,
   character: string,
   realm: string
@@ -125,11 +125,4 @@ function rateLimit(headers: { [s: string]: unknown }) {
     return `${max}秒`
   }
   return ''
-}
-
-export default {
-  profile,
-  getCharacters,
-  getItems,
-  getPassiveSkills
 }
