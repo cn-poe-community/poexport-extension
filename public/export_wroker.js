@@ -1,5 +1,6 @@
 const EXPORT_SERVER = 'http://120.77.179.194:8888'
 const HTTP_TIMEOUT = 3000
+const FORUM_URL = 'https://poe.game.qq.com'
 
 async function transform(compressed, sendResponse) {
   console.log(`fetching ${EXPORT_SERVER}/transform`)
@@ -24,7 +25,7 @@ async function transform(compressed, sendResponse) {
       msg: `无法访问Export服务器，刷新重试或联系开发者`
     })
     return
-  }finally{
+  } finally {
     clearTimeout(timeoutId)
   }
 
@@ -51,12 +52,48 @@ async function transform(compressed, sendResponse) {
   })
 }
 
+async function renewCookies(sendResponse) {
+  const poeSessId = await chrome.cookies.get({ url: FORUM_URL, name: 'POESESSID' })
+  if (poeSessId === null) {
+    sendResponse({
+      code: 0
+    })
+    return
+  }
+
+  const puin = await chrome.cookies.get({ url: FORUM_URL, name: 'p_uin' })
+  if (puin === null || !puin.session) {
+    sendResponse({
+      code: 0
+    })
+    return
+  }
+
+  const puinDetails = {
+    domain: puin.domain,
+    name: puin.name,
+    url: FORUM_URL,
+    storeId: puin.storeId,
+    value: puin.value,
+    expirationDate: poeSessId.expirationDate, //only change this
+    path: puin.path,
+    httpOnly: puin.hostOnly,
+    secure: puin.secure,
+    sameSite: puin.sameSite
+  }
+  await chrome.cookies.set(puinDetails)
+
+  sendResponse({
+    code: 0
+  })
+}
+
 chrome.runtime.onMessage.addListener(function (request, sender, sendResponse) {
-  if (request.task === 'load') {
-    //加载逻辑已移除，因此目前不做任何事情
-  } else if (request.task === 'transform') {
+  if (request.task === 'transform') {
     const data = new Uint8Array(request.compressed)
     transform(data, sendResponse)
+  } else if (request.task === 'cookiesRenewal') {
+    renewCookies(sendResponse)
   }
   return true
 })

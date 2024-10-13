@@ -22,6 +22,10 @@
       ],
       "js": ["export_loader.js"],
       "css": ["export.css"]
+    },
+    {
+      "matches": ["https://poe.game.qq.com/*"],
+      "js": ["cookies_renewal.js"]
     }
   ],
   "web_accessible_resources": [

@@ -1,42 +1,83 @@
 <script setup lang="ts">
 import { ref, onMounted } from 'vue'
-import * as poeapi from './lib/poeapi.js'
 
 const POE_FORUM_URL = 'https://poe.game.qq.com'
-const SESSION_NAME = 'POESESSID'
+const COOKIE_NAMES = ['POESESSID', 'p_uin']
 
-const poeSessId = ref('')
+const cookiesStr = ref('')
+const cookiesRenewalEnabled = ref(false)
+const panelEnabled = ref(false)
 
-function handleClick() {
-  navigator.clipboard.writeText(poeSessId.value)
+function handleCookiesCopyBtnClick() {
+  navigator.clipboard.writeText(cookiesStr.value)
 }
 
-onMounted(() => {
-  chrome.cookies.get({ url: POE_FORUM_URL, name: SESSION_NAME }, async (cookie) => {
+function handleCookiesRenewalBtnClick(event: MouseEvent) {
+  const input = event.target as HTMLInputElement
+  chrome.storage.local.set({ cookiesRenewalEnabled: input.checked })
+}
+
+function handlePanelEnabledBtnClick(event: MouseEvent) {
+  const input = event.target as HTMLInputElement
+  chrome.storage.local.set({ panelEnabled: input.checked })
+}
+
+async function loadCookies() {
+  let str = ''
+  for (const name of COOKIE_NAMES) {
+    const cookie = await chrome.cookies.get({ url: POE_FORUM_URL, name })
     if (cookie) {
-      poeSessId.value = cookie.value
-      const { error } = await poeapi.profile()
-      if (error !== null) {
-        poeSessId.value = ''
-      }
+      str = str + `${name}=${cookie.value};`
     }
-  })
+  }
+
+  cookiesStr.value = str.substring(0, str.length - 1)
+}
+
+async function loadSettings() {
+  let values = await chrome.storage.local.get({ cookiesRenewalEnabled: true, panelEnabled: true })
+  cookiesRenewalEnabled.value = values.cookiesRenewalEnabled
+  panelEnabled.value = values.panelEnabled
+}
+
+onMounted(async () => {
+  loadCookies()
+  loadSettings()
 })
 </script>
 
 <template>
   <div class="part">
-    <label for="poeSessId">POESESSID:</label>
     <div class="line">
+      <label for="cookie-copy-btn" class="line-item">Cookies:</label>
+      <button
+        id="cookie-copy-btn"
+        class="line-item"
+        @click="handleCookiesCopyBtnClick"
+        :disabled="cookiesStr === ''"
+      >
+        复制
+      </button>
+    </div>
+    <div class="line">
+      <label for="cookies-renewal-btn" class="line-item">Cookies续期(重载页面生效):</label>
       <input
-        name="poeSessId"
-        disabled
-        maxlength="25"
-        :value="poeSessId"
-        type="password"
-        placeholder="论坛账户未登陆"
+        id="cookies-renewal-btn"
+        v-model="cookiesRenewalEnabled"
+        @click="handleCookiesRenewalBtnClick"
+        type="checkbox"
+        class="line-item"
       />
-      <button @click="handleClick" :disabled="poeSessId === ''">复制</button>
+    </div>
+    <div class="line">
+      <label for="panel-enabled-btn" class="line-item">启用面板(重载页面生效):</label>
+      <input
+        id="panel-enabled-btn"
+        v-model="panelEnabled"
+        @click="handlePanelEnabledBtnClick"
+        type="checkbox"
+        class="line-item"
+      />
     </div>
   </div>
 </template>
@@ -44,11 +85,22 @@ onMounted(() => {
 <style scoped>
 .line {
   display: flex;
+  align-items: center;
   margin: 3px 0;
   min-height: 25px;
 }
 
+.line-item {
+  flex: 1 1 auto;
+}
+
 .line button {
   margin-left: 4px;
+  flex: 0 1 70px;
+}
+
+.line [type='checkbox'] {
+  margin-left: 4px;
+  flex: 0 1 20px;
 }
 </style>

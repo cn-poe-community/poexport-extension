@@ -16,9 +16,7 @@ async function createBuilding(items: any, passiveSkills: any) {
   return data
 }
 
-function startup() {
-  chrome.runtime.sendMessage({ task: 'load' })
-}
+function startup() {}
 </script>
 
 <template>
