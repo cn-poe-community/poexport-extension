@@ -27,7 +27,11 @@ export async function getCharacters(accountName: string, realm: string): Promise
   }
 }
 
-export async function getItems(accountName: string, character: string, realm: string): Promise<any> {
+export async function getItems(
+  accountName: string,
+  character: string,
+  realm: string
+): Promise<any> {
   const form = new URLSearchParams()
   form.append('accountName', accountName)
   form.append('character', character)
