@@ -10,7 +10,7 @@
     "default_popup": "pages/popup.html"
   },
   "background": {
-    "service_worker": "export_wroker.js",
+    "service_worker": "export_worker.js",
     "type": "module"
   },
   "content_scripts": [

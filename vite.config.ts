@@ -27,7 +27,7 @@ export default defineConfig({
       input: {
         popup: resolve(__dirname, 'pages/popup.html'),
         export: resolve(__dirname, 'pages/export.html'),
-        background: resolve(__dirname, 'public/export_wroker.js')
+        background: resolve(__dirname, 'public/export_worker.js')
       }
     }
   }
