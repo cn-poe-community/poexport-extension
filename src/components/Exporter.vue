@@ -94,6 +94,8 @@ async function handleExport() {
   try {
     items = await poeapi.getItems(accountName, character, realm)
     passiveSkills = await poeapi.getPassiveSkills(accountName, character, realm)
+
+    removeInventoryItems(items)
     state.buildingCode = await props.createBuilding(items, passiveSkills)
   } catch (e) {
     if (e instanceof Error) {
@@ -102,6 +104,21 @@ async function handleExport() {
       alert(e)
     }
     return
+  }
+}
+
+function removeInventoryItems(items: any) {
+  if (items.items) {
+    const itemList = items.items
+    const remains = []
+    if (itemList.length > 0) {
+      for (const item of itemList) {
+        if (item.inventoryId !== 'MainInventory' && item.inventoryId !== 'ExpandedMainInventory') {
+          remains.push(item)
+        }
+      }
+      items.items = remains
+    }
   }
 }
 
