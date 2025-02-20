@@ -35,19 +35,19 @@ const exportReady = computed(() => {
   return state.characters.length > 0 && Boolean(state.currCharacter)
 })
 
-function handleLeageSelect() {
+function handleLeagueSelect() {
   state.currCharacters = state.leagueMap.get(state.currLeague)
   state.currCharacter = state.currCharacters[0].name
 }
 
 async function handleCharactersQuery() {
-  state.characters = []
-  state.leagues = []
+  state.characters.length = 0
+  state.leagues.length = 0
 
   const realm = state.realm
   const accountName = state.accountName
 
-  var data = null
+  let data = null
   try {
     data = await poeapi.getCharacters(accountName, realm)
   } catch (e) {
@@ -62,7 +62,7 @@ async function handleCharactersQuery() {
   const characters = data
   state.characters = characters
 
-  let leagueMap = new Map()
+  const leagueMap = new Map()
   for (const character of characters) {
     const leagueName = character.league
     let list = leagueMap.get(leagueName)
@@ -77,7 +77,7 @@ async function handleCharactersQuery() {
   state.leagues = leagues
   if (leagues.length > 0) {
     state.currLeague = leagues[0]
-    handleLeageSelect()
+    handleLeagueSelect()
   }
 }
 
@@ -173,7 +173,7 @@ onMounted(() => {
   </span>
   <span class="line-container">
     <div v-if="selectReady">
-      <select v-model="state.currLeague" v-if="selectReady" @change="handleLeageSelect">
+      <select v-model="state.currLeague" v-if="selectReady" @change="handleLeagueSelect">
         <option v-for="item in leagues" :key="item" :value="item">
           {{ item }}
         </option>

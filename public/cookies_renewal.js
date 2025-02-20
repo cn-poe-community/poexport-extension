@@ -16,13 +16,11 @@
     }
   }
 
-  if (window.location.href.includes('login')) {
-    if (
-      document.cookie.includes('; p_uin=') ||
-      document.body.innerText.includes('发生了一个错误')
-    ) {
-      await resetAllCookies()
-    }
+  if (
+    window.location.href.includes('login') &&
+    (document.cookie.includes('; p_uin=') || document.body.innerText.includes('发生了一个错误'))
+  ) {
+    resetAllCookies()
   }
 
   const values = await chrome.storage.local.get({ cookiesRenewalEnabled: false })
