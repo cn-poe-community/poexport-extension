@@ -111,12 +111,12 @@ function removeInventoryItems(items: any) {
   if (items.items) {
     const itemList = items.items
     const remains = []
-    if (itemList.length > 0) {
-      for (const item of itemList) {
-        if (item.inventoryId !== 'MainInventory' && item.inventoryId !== 'ExpandedMainInventory') {
-          remains.push(item)
-        }
+    for (const item of itemList) {
+      if (item.inventoryId !== 'MainInventory' && item.inventoryId !== 'ExpandedMainInventory') {
+        remains.push(item)
       }
+    }
+    if (remains.length < items.items.length) {
       items.items = remains
     }
   }
