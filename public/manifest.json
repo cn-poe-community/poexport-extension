@@ -1,7 +1,7 @@
 {
   "name": "PoExport",
   "description": "国服POE导出工具",
-  "version": "1.3.0",
+  "version": "1.3.1",
   "manifest_version": 3,
   "host_permissions": ["https://*.poe.game.qq.com/"],
   "permissions": ["clipboardWrite", "cookies", "storage"],
