@@ -13,6 +13,6 @@ export default tseslint.config([
     "monkey/build.js",
   ]),
   eslint.configs.recommended,
-  eslint.configs.recommended,
+  tseslint.configs.recommended,
   eslintConfigPrettier,
 ]);
