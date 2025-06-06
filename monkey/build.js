@@ -44,12 +44,12 @@ const headersTemplate = `
 // @match        https://poe.game.qq.com/account/view-profile/*
 // @match        https://poe.game.qq.com/forum
 // @icon         https://poecdn.game.qq.com/gen/image/WzI1LDE0LHsiZiI6IjJESXRlbXMvQ3VycmVuY3kvU2NvdXRpbmdSZXBvcnQiLCJ3IjoxLCJoIjoxLCJzY2FsZSI6MX1d/584635f3c8/ScoutingReport.png
-// @require      https://unpkg.com/cn-poe-translator@{dependancies.cn-poe-translator}/dist/translator.global.js
-// @require      https://unpkg.com/cn-poe-export-db@{dependancies.cn-poe-export-db}/dist/db.global.js
-// @require      https://unpkg.com/pob-building-creator@{dependancies.pob-building-creator}/dist/creator.global.js
-// @require      https://unpkg.com/pako@{dependancies.pako}/dist/pako_deflate.min.js
-// @require      https://unpkg.com/axios@{dependancies.axios}/dist/axios.min.js
-// @require      https://unpkg.com/vue@{dependancies.vue}/dist/vue.global.prod.js
+// @require      https://unpkg.com/cn-poe-translator@{dependencies.cn-poe-translator}/dist/translator.global.js
+// @require      https://unpkg.com/cn-poe-export-db@{dependencies.cn-poe-export-db}/dist/db.global.js
+// @require      https://unpkg.com/pob-building-creator@{dependencies.pob-building-creator}/dist/creator.global.js
+// @require      https://unpkg.com/pako@{dependencies.pako}/dist/pako_deflate.min.js
+// @require      https://unpkg.com/axios@{dependencies.axios}/dist/axios.min.js
+// @require      https://unpkg.com/vue@{dependencies.vue}/dist/vue.global.prod.js
 // @grant        none
 // @license      MIT
 // ==/UserScript==
@@ -60,10 +60,10 @@ function renderTemplate(template, data) {
     if (data[key] !== undefined) {
       return data[key];
     }
-    if (key.startsWith("dependancies.")) {
+    if (key.startsWith("dependencies.")) {
       const depName = key.split(".")[1];
-      if (data.dependancies[depName] !== undefined) {
-        return data.dependancies[depName];
+      if (data.dependencies[depName] !== undefined) {
+        return data.dependencies[depName];
       }
     }
     throw new Error(`未找到占位符 ${key} 的值`);
@@ -73,7 +73,7 @@ function renderTemplate(template, data) {
 function buildHeaders() {
   let info = {
     version: "0.0.0",
-    dependancies: {
+    dependencies: {
       "cn-poe-translator": "0.0.0",
       "cn-poe-export-db": "0.0.0",
       "pob-building-creator": "0.0.0",
@@ -85,11 +85,11 @@ function buildHeaders() {
 
   const result = pnpmList();
   info.version = result.version;
-  for (const key in info.dependancies) {
+  for (const key in info.dependencies) {
     if (result.dependencies[key]) {
-      info.dependancies[key] = result.dependencies[key].version;
+      info.dependencies[key] = result.dependencies[key].version;
     } else if (result.devDependencies[key]) {
-      info.dependancies[key] = result.devDependencies[key].version;
+      info.dependencies[key] = result.devDependencies[key].version;
     } else {
       console.warn(`警告：未找到依赖 ${key} 的版本信息`);
     }

@@ -100,27 +100,27 @@ export default defineBackground(() => {
       return;
     }
 
-    const puin = await browser.cookies.get({ url: FORUM_URL, name: "p_uin" });
-    if (!puin || !puin.session) {
+    const pUin = await browser.cookies.get({ url: FORUM_URL, name: "p_uin" });
+    if (!pUin || !pUin.session) {
       sendResponse({
         code: 0,
       });
       return;
     }
 
-    const puinDetails = {
-      domain: puin.domain,
-      name: puin.name,
+    const pUinDetails = {
+      domain: pUin.domain,
+      name: pUin.name,
       url: FORUM_URL,
-      storeId: puin.storeId,
-      value: puin.value,
+      storeId: pUin.storeId,
+      value: pUin.value,
       expirationDate: poeSessId.expirationDate, //only change this
-      path: puin.path,
-      httpOnly: puin.hostOnly,
-      secure: puin.secure,
-      sameSite: puin.sameSite,
+      path: pUin.path,
+      httpOnly: pUin.hostOnly,
+      secure: pUin.secure,
+      sameSite: pUin.sameSite,
     };
-    await browser.cookies.set(puinDetails);
+    await browser.cookies.set(pUinDetails);
 
     sendResponse({
       code: 0,

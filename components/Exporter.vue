@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { computed, reactive, ref, onMounted } from "vue";
-import * as poeapi from "./libs/poeapi";
+import * as PoeApi from "./libs/poe_api";
 import { CharacterTypes, ItemTypes } from "pathofexile-api-types";
 
 const props = defineProps(["createBuilding", "startup"]);
@@ -50,8 +50,8 @@ async function handleCharactersQuery() {
 
   let data: CharacterTypes.GetCharactersResult | null = null;
   try {
-    data = await poeapi.getCharacters(
-      poeapi.TENCENT_POE_SITE,
+    data = await PoeApi.getCharacters(
+      PoeApi.TENCENT_POE_SITE,
       accountName,
       realm,
     );
@@ -97,14 +97,14 @@ async function handleExport() {
   let passiveSkills = null;
 
   try {
-    items = await poeapi.getItems(
-      poeapi.TENCENT_POE_SITE,
+    items = await PoeApi.getItems(
+      PoeApi.TENCENT_POE_SITE,
       accountName,
       character,
       realm,
     );
-    passiveSkills = await poeapi.getPassiveSkills(
-      poeapi.TENCENT_POE_SITE,
+    passiveSkills = await PoeApi.getPassiveSkills(
+      PoeApi.TENCENT_POE_SITE,
       accountName,
       character,
       realm,
