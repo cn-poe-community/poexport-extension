@@ -168,9 +168,20 @@ const pattern = new RegExp("/account/view-profile/([^/?]+)"); //reusing non-glob
 function getAccountNameFromProfileLink(link: string) {
   const match = pattern.exec(link);
   if (match) {
-    return decodeURI(match[1]);
+    const accountName = replaceLast(decodeURIComponent(match[1]), "-", "#");
+    return accountName;
   }
   return null;
+}
+
+function replaceLast(str: string, search: string, replaceWith: string) {
+  const lastIndex = str.lastIndexOf(search);
+  if (lastIndex === -1) return str;
+  return (
+    str.substring(0, lastIndex) +
+    replaceWith +
+    str.substring(lastIndex + search.length)
+  );
 }
 
 onMounted(() => {
@@ -188,6 +199,7 @@ onMounted(() => {
       placeholder="输入论坛账户名"
       maxlength="50"
       v-model.trim="state.accountName"
+      spellcheck="false"
     />
     <button @click="handleCharactersQuery" :disabled="!getCharactersReady">
       开始
