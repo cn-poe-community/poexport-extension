@@ -3,7 +3,6 @@ import "./style.css";
 import App from "./App.vue";
 
 export default defineContentScript({
-  exclude: ["monkey"],
   matches: [
     "https://poe.game.qq.com/my-account",
     "https://poe.game.qq.com/account/view-profile/*",

@@ -1,7 +1,6 @@
 import { resetAllCookies } from "./renewal";
 
 export default defineContentScript({
-  exclude: ["monkey"],
   matches: ["https://poe.game.qq.com/*"],
   async main() {
     if (
