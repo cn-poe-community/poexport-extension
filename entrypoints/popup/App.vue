@@ -3,19 +3,13 @@ import { ref, onMounted } from "vue";
 import { browser } from "wxt/browser";
 
 const POE_FORUM_URL = "https://poe.game.qq.com";
-const COOKIE_NAMES = ["POESESSID", "p_uin"];
+const COOKIE_NAMES = ["POESESSID"];
 
 const cookiesStr = ref("");
-const cookiesRenewalEnabled = ref(false);
 const panelEnabled = ref(false);
 
 function handleCookiesCopyBtnClick() {
   navigator.clipboard.writeText(cookiesStr.value);
-}
-
-function handleCookiesRenewalBtnClick(event: MouseEvent) {
-  const input = event.target as HTMLInputElement;
-  browser.storage.local.set({ cookiesRenewalEnabled: input.checked });
 }
 
 function handlePanelEnabledBtnClick(event: MouseEvent) {
@@ -37,10 +31,8 @@ async function loadCookies() {
 
 async function loadSettings() {
   let values = await browser.storage.local.get({
-    cookiesRenewalEnabled: true,
     panelEnabled: true,
   });
-  cookiesRenewalEnabled.value = values.cookiesRenewalEnabled;
   panelEnabled.value = values.panelEnabled;
 }
 
@@ -62,18 +54,6 @@ onMounted(async () => {
       >
         复制
       </button>
-    </div>
-    <div class="line">
-      <label for="cookies-renewal-btn" class="line-item"
-        >Cookies续期(刷新生效)</label
-      >
-      <input
-        id="cookies-renewal-btn"
-        v-model="cookiesRenewalEnabled"
-        @click="handleCookiesRenewalBtnClick"
-        type="checkbox"
-        class="line-item"
-      />
     </div>
     <div class="line">
       <label for="panel-enabled-btn" class="line-item">面板(刷新生效)</label>

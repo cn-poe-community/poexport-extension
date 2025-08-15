@@ -1,7 +1,7 @@
 import { browser } from "wxt/browser";
 
 export interface Message {
-  task: "transform" | "cookiesRenewal";
+  task: "transform";
   data?: unknown;
 }
 
@@ -26,14 +26,9 @@ export interface TransformResponse extends Response {
   data?: string;
 }
 
-export interface CookiesRenewalMessage extends Message {
-  task: "cookiesRenewal";
-}
-
 export default defineBackground(() => {
   const EXPORT_SERVER = "http://120.77.179.194:8888";
   const HTTP_TIMEOUT = 3000;
-  const FORUM_URL = "https://poe.game.qq.com";
 
   async function transform(
     compressed: Uint8Array,
@@ -88,45 +83,6 @@ export default defineBackground(() => {
     });
   }
 
-  async function renewCookies(sendResponse: (response: Response) => void) {
-    const poeSessId = await browser.cookies.get({
-      url: FORUM_URL,
-      name: "POESESSID",
-    });
-    if (!poeSessId) {
-      sendResponse({
-        code: 0,
-      });
-      return;
-    }
-
-    const pUin = await browser.cookies.get({ url: FORUM_URL, name: "p_uin" });
-    if (!pUin || !pUin.session) {
-      sendResponse({
-        code: 0,
-      });
-      return;
-    }
-
-    const pUinDetails = {
-      domain: pUin.domain,
-      name: pUin.name,
-      url: FORUM_URL,
-      storeId: pUin.storeId,
-      value: pUin.value,
-      expirationDate: poeSessId.expirationDate, //only change this
-      path: pUin.path,
-      httpOnly: pUin.hostOnly,
-      secure: pUin.secure,
-      sameSite: pUin.sameSite,
-    };
-    await browser.cookies.set(pUinDetails);
-
-    sendResponse({
-      code: 0,
-    });
-  }
-
   browser.runtime.onMessage.addListener(function (
     message: Message,
     sender,
@@ -136,8 +92,6 @@ export default defineBackground(() => {
       const m = message as TransformMessage;
       const compressed = new Uint8Array(m.data as number[]);
       transform(compressed, sendResponse);
-    } else if (message.task === "cookiesRenewal") {
-      renewCookies(sendResponse);
     }
     return true;
   });
