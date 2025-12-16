@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { TransformMessage, TransformResponse } from "@/entrypoints/background";
-import Exporter from "../../components/Exporter.vue";
+import Exporter from "@/components/Exporter.vue";
 import pako from "pako";
 import { ItemTypes, PassiveSkillTypes } from "pathofexile-api-types";
 

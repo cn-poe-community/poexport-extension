@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { computed, reactive, ref, onMounted } from "vue";
-import * as PoeApi from "./libs/poe_api";
+import * as PoeApi from "@/utils/poe/api";
 import { CharacterTypes, ItemTypes } from "pathofexile-api-types";
 
 const props = defineProps(["createBuilding", "startup"]);
