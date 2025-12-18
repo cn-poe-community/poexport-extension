@@ -7,6 +7,12 @@ export default defineConfig({
     const m: UserManifest = {
       host_permissions: ["https://*.poe.game.qq.com/"],
       permissions: ["storage", "cookies", "clipboardWrite"],
+      web_accessible_resources: [
+        {
+          resources: ["trade2-main-world.js"],
+          matches: ["https://*.poe.game.qq.com/*"],
+        },
+      ],
     };
     return m;
   },
