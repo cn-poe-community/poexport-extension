@@ -10,8 +10,10 @@ export default defineContentScript({
   ],
   cssInjectionMode: "ui",
   async main(ctx) {
-    const values = await browser.storage.local.get({ panelEnabled: true });
-    if (values.panelEnabled) {
+    const settings = await browser.storage.local.get({
+      poe1ExportEnabled: true,
+    });
+    if (settings.poe1ExportEnabled) {
       const ui = await createShadowRootUi(ctx, {
         name: "exporter-ui",
         position: "inline",

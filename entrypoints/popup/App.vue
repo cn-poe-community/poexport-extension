@@ -6,15 +6,13 @@ const POE_FORUM_URL = "https://poe.game.qq.com";
 const COOKIE_NAMES = ["POESESSID"];
 
 const cookiesStr = ref("");
-const panelEnabled = ref(false);
 
 function handleCookiesCopyBtnClick() {
   navigator.clipboard.writeText(cookiesStr.value);
 }
 
-function handlePanelEnabledBtnClick(event: MouseEvent) {
-  const input = event.target as HTMLInputElement;
-  browser.storage.local.set({ panelEnabled: input.checked });
+function handleSettingsBtnClick() {
+  browser.runtime.openOptionsPage();
 }
 
 async function loadCookies() {
@@ -29,65 +27,29 @@ async function loadCookies() {
   cookiesStr.value = str.substring(0, str.length - 1);
 }
 
-async function loadSettings() {
-  let values = await browser.storage.local.get({
-    panelEnabled: true,
-  });
-  panelEnabled.value = values.panelEnabled;
-}
-
 onMounted(async () => {
   loadCookies();
-  loadSettings();
 });
 </script>
 
 <template>
-  <div class="part">
-    <div class="line">
-      <span class="line-item">Cookies</span>
+  <div class="min-w-[200px] mx-1 my-1">
+    <div class="w-full">
       <button
-        id="cookie-copy-btn"
-        class="line-item"
+        class="btn btn-sm btn-wide btn-outline"
         @click="handleCookiesCopyBtnClick"
         :disabled="cookiesStr === ''"
       >
-        复制
+        复制Cookies
       </button>
     </div>
-    <div class="line">
-      <label for="panel-enabled-btn" class="line-item">面板(刷新生效)</label>
-      <input
-        id="panel-enabled-btn"
-        v-model="panelEnabled"
-        @click="handlePanelEnabledBtnClick"
-        type="checkbox"
-        class="line-item"
-      />
+    <div class="w-full mt-0.5">
+      <button
+        class="btn btn-sm btn-wide btn-dash"
+        @click="handleSettingsBtnClick"
+      >
+        设置
+      </button>
     </div>
   </div>
 </template>
-
-<style scoped>
-.line {
-  display: flex;
-  align-items: center;
-  line-height: 2em;
-  min-width: 180px;
-  user-select: none;
-}
-
-.line-item {
-  flex: 1 1 auto;
-}
-
-.line button {
-  margin-left: 4px;
-  flex: 0 1 auto;
-}
-
-.line [type="checkbox"] {
-  margin-left: 4px;
-  flex: 0 1 20px;
-}
-</style>

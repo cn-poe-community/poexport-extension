@@ -1,7 +1,11 @@
 import { defineConfig, UserManifest } from "wxt";
+import tailwindcss from "@tailwindcss/vite";
 
 // See https://wxt.dev/api/config.html
 export default defineConfig({
+  vite: () => ({
+    plugins: [tailwindcss()],
+  }),
   modules: ["@wxt-dev/module-vue", "@wxt-dev/webextension-polyfill"],
   manifest: () => {
     const m: UserManifest = {
