@@ -97,18 +97,15 @@ async function handleExport() {
   let passiveSkills = null;
 
   try {
-    items = await PoeApi.getItems(
-      PoeApi.TENCENT_POE_SITE,
-      accountName,
-      character,
-      realm,
-    );
-    passiveSkills = await PoeApi.getPassiveSkills(
-      PoeApi.TENCENT_POE_SITE,
-      accountName,
-      character,
-      realm,
-    );
+    [items, passiveSkills] = await Promise.all([
+      PoeApi.getItems(PoeApi.TENCENT_POE_SITE, accountName, character, realm),
+      PoeApi.getPassiveSkills(
+        PoeApi.TENCENT_POE_SITE,
+        accountName,
+        character,
+        realm,
+      ),
+    ]);
 
     removeInventoryItems(items);
     state.buildingCode = await props.createBuilding(items, passiveSkills);
