@@ -1,52 +1,75 @@
+import { deflateCompressToBlob as deflateCompressToBlob } from "@/utils/compress";
 import { browser } from "wxt/browser";
 
-export interface Message {
-  task: "transform";
-  data?: unknown;
+export enum ExMessageType {
+  POE1_BUILDING_TRANSFORM = "ext:poe1:building:transform",
 }
 
-export interface Response {
-  code: number;
+export interface ExMessage {
+  type: ExMessageType;
+}
+
+export enum ExResponseCode {
+  SUCCESS = 0,
+  ERROR = 1,
+}
+
+export interface ExResponse {
+  code: ExResponseCode;
   msg?: string;
+}
+
+export interface Poe1TransformMessage extends ExMessage {
+  type: ExMessageType.POE1_BUILDING_TRANSFORM;
+  items: string;
+  passiveSkills: string;
+}
+
+export interface Poe1TransformResponse extends ExResponse {
+  building?: string;
+}
+
+interface ServerResponse {
+  code: number;
+  msg: string;
   data?: unknown;
 }
 
-export interface TransformMessage extends Message {
-  task: "transform";
-  /**
-   * compressed bytes
-   */
-  data: number[];
+interface Poe1TransformServerResponse extends ServerResponse {
+  data?: {
+    xml: string;
+  };
 }
 
-export interface TransformResponse extends Response {
-  /**
-   * building xml
-   */
-  data?: string;
-}
+const EXPORT_SERVER = "http://120.77.179.194:8888";
+const POE1_TRANSFORM_API = `${EXPORT_SERVER}/v1/poe1/building/transform`;
+
+const HTTP_TIMEOUT = 3000;
 
 export default defineBackground(() => {
-  const EXPORT_SERVER = "http://120.77.179.194:8888";
-  const HTTP_TIMEOUT = 3000;
-
-  async function transform(
-    compressed: Uint8Array,
-    sendResponse: (response: Response) => void,
+  async function poe1Transform(
+    items: string,
+    passiveSkills: string,
+    sendResponse: (response: Poe1TransformResponse) => void,
   ) {
-    console.log(`fetching ${EXPORT_SERVER}/transform`);
-    let res = null;
+    console.log(`fetching ${POE1_TRANSFORM_API}`);
+    let resp = null;
+
+    const formData = new FormData();
+
+    formData.append("items", await deflateCompressToBlob(items));
+    formData.append(
+      "passiveSkills",
+      await deflateCompressToBlob(passiveSkills),
+    );
 
     const controller = new AbortController();
     const timeoutId = setTimeout(() => controller.abort(), HTTP_TIMEOUT);
 
     try {
-      res = await fetch(`${EXPORT_SERVER}/transform`, {
+      resp = await fetch(`${POE1_TRANSFORM_API}`, {
         method: "post",
-        headers: {
-          "Content-type": "octet-stream",
-        },
-        body: compressed,
+        body: formData,
         signal: controller.signal,
       });
     } catch (err) {
@@ -60,38 +83,37 @@ export default defineBackground(() => {
       clearTimeout(timeoutId);
     }
 
-    if (res.status !== 200) {
+    if (resp.status !== 200) {
       sendResponse({
-        code: 1,
-        msg: `导出错误: ${res.status}`,
+        code: ExResponseCode.ERROR,
+        msg: `导出错误: ${resp.status}`,
       });
       return;
     }
-    const apiResp = await res.json();
-    const code = apiResp.code;
+    const serverResp = (await resp.json()) as Poe1TransformServerResponse;
+    const code = serverResp.code;
     if (code !== 200) {
       sendResponse({
-        code: 1,
-        msg: `导出错误: ${apiResp.msg}`,
+        code: ExResponseCode.ERROR,
+        msg: `导出错误: ${serverResp.msg}`,
       });
       return;
     }
 
     sendResponse({
-      code: 0,
-      data: apiResp.data.xml,
+      code: ExResponseCode.SUCCESS,
+      building: serverResp.data!.xml,
     });
   }
 
   browser.runtime.onMessage.addListener(function (
-    message: Message,
+    message: ExMessage,
     sender,
     sendResponse,
   ) {
-    if (message.task === "transform") {
-      const m = message as TransformMessage;
-      const compressed = new Uint8Array(m.data as number[]);
-      transform(compressed, sendResponse);
+    if (message.type === ExMessageType.POE1_BUILDING_TRANSFORM) {
+      const m = message as Poe1TransformMessage;
+      poe1Transform(m.items, m.passiveSkills, sendResponse);
     }
     return true;
   });
