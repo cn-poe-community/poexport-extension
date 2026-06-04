@@ -1,17 +1,21 @@
 <script setup lang="ts">
 import { computed, reactive, ref, onMounted } from "vue";
-import * as PoeApi from "@/utils/poe/api";
-import { CharacterTypes, ItemTypes } from "pathofexile-api-types";
+import * as PoeApi from "@/utils/poe/poe1_api";
+import {
+  Character,
+  GetCharactersResult,
+  GetItemsResult,
+} from "cn-poe-utils/api";
 
 const props = defineProps(["createBuilding", "startup"]);
 
 const accountName = ref("");
 const realm = "pc";
-const characters = ref<CharacterTypes.GetCharactersResult>([]);
+const characters = ref<GetCharactersResult>([]);
 const leagues = ref<string[]>([]);
-const charactersLeagueIdx = ref(new Map<string, CharacterTypes.Character[]>());
+const charactersLeagueIdx = ref(new Map<string, Character[]>());
 const currLeague = ref("");
-const currCharacters = ref<CharacterTypes.Character[]>([]);
+const currCharacters = ref<Character[]>([]);
 const currCharacter = ref("");
 const buildingCode = ref("");
 const state = reactive({
@@ -48,7 +52,7 @@ async function handleCharactersQuery() {
   const realm = state.realm;
   const accountName = state.accountName;
 
-  let data: CharacterTypes.GetCharactersResult | null = null;
+  let data: GetCharactersResult | null = null;
   try {
     data = await PoeApi.getCharacters(
       PoeApi.TENCENT_POE_SITE,
@@ -67,7 +71,7 @@ async function handleCharactersQuery() {
   const characters = data;
   state.characters = characters;
 
-  const charLeagueIdx = new Map<string, CharacterTypes.Character[]>();
+  const charLeagueIdx = new Map<string, Character[]>();
   for (const character of characters) {
     const leagueName = character.league;
     let list = charLeagueIdx.get(leagueName);
@@ -119,7 +123,7 @@ async function handleExport() {
   }
 }
 
-function removeInventoryItems(result: ItemTypes.GetItemsResult) {
+function removeInventoryItems(result: GetItemsResult) {
   if (result.items) {
     const itemList = result.items;
     const remains = [];

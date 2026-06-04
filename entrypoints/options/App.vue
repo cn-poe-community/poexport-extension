@@ -22,10 +22,10 @@ onMounted(async () => {
 </script>
 
 <template>
-  <div class="text-base min-w-[200px] max-w-[600px] mx-auto mt-5">
+  <div class="text-base min-w-50 max-w-150 mx-auto mt-5">
     <h1 class="text-2xl">PoeExport 设置</h1>
     <div class="divider divider-neutral"></div>
-    <h2 class="text-lg">论坛网站优化</h2>
+    <h2 class="text-lg">论坛网页优化</h2>
     <div class="grid grid-cols-2">
       <span class="">POE1导出POB</span>
       <input
@@ -36,24 +36,24 @@ onMounted(async () => {
       />
     </div>
     <div class="divider"></div>
-    <h2 class="text-lg">POE2交易网站优化</h2>
+    <h2 class="text-lg">POE2交易网页优化</h2>
     <div class="grid grid-cols-2">
       <span>物品复制为文本</span>
       <input
         type="checkbox"
-        checked="checked"
+        checked="true"
         class="toggle toggle-primary toggle-sm justify-self-end"
         v-model="settings.trade2ItemTextEnabled"
         @click="switchBool($event, 'trade2ItemTextEnabled')"
       />
     </div>
     <div class="divider"></div>
-    <h2 class="text-lg">WeGame助手网站优化</h2>
+    <h2 class="text-lg">WeGame助手网页优化</h2>
     <div class="grid grid-cols-2">
       <span>POE2导出POB</span>
       <input
         type="checkbox"
-        checked="checked"
+        checked="true"
         class="toggle toggle-primary toggle-sm justify-self-end"
         v-model="settings.poe2ExportEnabled"
         @click="switchBool($event, 'poe2ExportEnabled')"

@@ -1,30 +1,29 @@
 <script setup lang="ts">
 import {
+  ActionType,
   Poe1TransformMessage,
-  Poe1TransformResponse,
-  ExMessageType,
-  ExResponseCode,
+  TransformResult,
 } from "@/entrypoints/background";
 import Exporter from "@/components/Exporter.vue";
-
-import { ItemTypes, PassiveSkillTypes } from "pathofexile-api-types";
+import { GetItemsResult, GetPassiveSkillsResult } from "cn-poe-utils/api";
 
 async function createBuilding(
-  items: ItemTypes.GetItemsResult,
-  passiveSkills: PassiveSkillTypes.GetPassiveSkillsResult,
+  items: GetItemsResult,
+  passiveSkills: GetPassiveSkillsResult,
 ): Promise<string> {
   const message: Poe1TransformMessage = {
-    type: ExMessageType.POE1_BUILDING_TRANSFORM,
-    items: JSON.stringify(items),
-    passiveSkills: JSON.stringify(passiveSkills),
+    action: ActionType.POE1_BUILDING_TRANSFORM,
+    payload: {
+      items: JSON.stringify(items),
+      passiveSkills: JSON.stringify(passiveSkills),
+    },
   };
-  const resp: Poe1TransformResponse =
-    await browser.runtime.sendMessage(message);
-  if (resp.code !== ExResponseCode.SUCCESS) {
-    throw new Error(resp.msg);
+  const result: TransformResult = await browser.runtime.sendMessage(message);
+  if (!result.ok) {
+    throw new Error(result.msg);
   }
 
-  return resp.building!;
+  return result.payload!;
 }
 
 function startup() {}
