@@ -2,7 +2,7 @@
   "name": "PoExport",
   "description": "流放之路国服导出工具",
   "private": true,
-  "version": "2.1.0",
+  "version": "3.0.0",
   "type": "module",
   "scripts": {
     "dev": "wxt",
@@ -20,7 +20,7 @@
     "@tailwindcss/vite": "^4.1.18",
     "@wxt-dev/webextension-polyfill": "^1.0.0",
     "cn-poe-utils": "^0.0.9",
-    "cn-poe2-commons": "link:E:/Dev/cn-poe2-commons",
+    "cn-poe2-utils": "link:E:/Dev/cn-poe2-utils",
     "daisyui": "^5.5.14",
     "pako": "^2.1.0",
     "tailwindcss": "^4.1.18",

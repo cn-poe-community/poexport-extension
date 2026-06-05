@@ -17,9 +17,9 @@ importers:
       cn-poe-utils:
         specifier: ^0.0.9
         version: 0.0.9
-      cn-poe2-commons:
-        specifier: link:E:/Dev/cn-poe2-commons
-        version: link:../../Dev/cn-poe2-commons
+      cn-poe2-utils:
+        specifier: link:E:/Dev/cn-poe2-utils
+        version: link:../../Dev/cn-poe2-utils
       daisyui:
         specifier: ^5.5.14
         version: 5.5.14

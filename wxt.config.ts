@@ -9,7 +9,10 @@ export default defineConfig({
   modules: ["@wxt-dev/module-vue", "@wxt-dev/webextension-polyfill"],
   manifest: () => {
     const m: UserManifest = {
-      host_permissions: ["https://*.poe.game.qq.com/"],
+      host_permissions: [
+        "https://*.poe.game.qq.com/",
+        "https://www.wegame.com.cn/",
+      ],
       permissions: ["storage", "cookies", "clipboardWrite"],
       web_accessible_resources: [
         {

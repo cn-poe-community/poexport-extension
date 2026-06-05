@@ -20,7 +20,7 @@ async function createBuilding(
   };
   const result: TransformResult = await browser.runtime.sendMessage(message);
   if (!result.ok) {
-    throw new Error(result.msg);
+    throw new Error(result.message);
   }
 
   return result.payload!;

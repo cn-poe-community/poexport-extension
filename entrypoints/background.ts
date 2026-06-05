@@ -13,7 +13,7 @@ export interface ExMessage<T> {
 
 export interface ExResult<T> {
   ok: boolean;
-  msg?: string;
+  message?: string;
   payload?: T;
 }
 
@@ -37,7 +37,7 @@ export type TransformResult = ExResult<string>;
 
 interface ApiResponse {
   code: number;
-  msg: string;
+  message: string;
   data?: unknown;
 }
 
@@ -82,10 +82,9 @@ export default defineBackground(() => {
         signal: controller.signal,
       });
     } catch (err) {
-      console.log(err);
       sendResponse({
         ok: false,
-        msg: `请求失败，检查网络连接，刷新重试或联系开发者`,
+        message: `请求失败，检查网络连接，刷新重试或联系开发者`,
       });
       return;
     } finally {
@@ -97,13 +96,13 @@ export default defineBackground(() => {
         const serverResp = (await resp.json()) as TransformResponse;
         sendResponse({
           ok: false,
-          msg: `${serverResp.msg}`,
+          message: `${serverResp.message}`,
         });
         return;
       } catch {
         sendResponse({
           ok: false,
-          msg: `${resp.status} ${resp.statusText}`,
+          message: `${resp.status} ${resp.statusText}`,
         });
         return;
       }
@@ -157,10 +156,9 @@ export default defineBackground(() => {
         signal: controller.signal,
       });
     } catch (err) {
-      console.log(err);
       sendResponse({
         ok: false,
-        msg: `请求失败，检查网络连接，刷新重试或联系开发者`,
+        message: `请求失败，检查网络连接，刷新重试或联系开发者`,
       });
       return;
     } finally {
@@ -172,13 +170,13 @@ export default defineBackground(() => {
         const serverResp = (await resp.json()) as TransformResponse;
         sendResponse({
           ok: false,
-          msg: `${serverResp.msg}`,
+          message: `${serverResp.message}`,
         });
         return;
       } catch {
         sendResponse({
           ok: false,
-          msg: `${resp.status} ${resp.statusText}`,
+          message: `${resp.status} ${resp.statusText}`,
         });
         return;
       }

@@ -38,7 +38,7 @@ onMounted(async () => {
     <div class="divider"></div>
     <h2 class="text-lg">POE2交易网页优化</h2>
     <div class="grid grid-cols-2">
-      <span>物品复制为文本</span>
+      <span>物品复制为文本（Beta）</span>
       <input
         type="checkbox"
         checked="true"
