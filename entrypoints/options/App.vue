@@ -1,5 +1,6 @@
 <script setup lang="ts">
-import { defaultSettings, Settings } from "@/utils/app/setting";
+import { defaultSettings, Settings } from "@/utils/setting";
+import { Switch } from "@/components/ui/switch";
 
 const settings: Settings = reactive(defaultSettings());
 
@@ -8,11 +9,10 @@ async function loadSettings() {
   Object.assign(settings, values);
 }
 
-function switchBool(event: MouseEvent, name: string) {
-  const checked = (event.target as HTMLInputElement).checked;
-  if (name in settings && typeof settings[name] === "boolean") {
-    settings[name] = checked;
-    browser.storage.local.set({ [name]: checked });
+function saveSetting(name: keyof Settings, value: boolean) {
+  if (name in settings) {
+    settings[name] = value;
+    browser.storage.local.set({ [name]: value });
   }
 }
 
@@ -22,41 +22,42 @@ onMounted(async () => {
 </script>
 
 <template>
-  <div class="text-base min-w-50 max-w-150 mx-auto mt-5">
-    <h1 class="text-2xl">PoeExport 设置</h1>
-    <div class="divider divider-neutral"></div>
-    <h2 class="text-lg">论坛网页优化</h2>
-    <div class="grid grid-cols-2">
-      <span class="">POE1导出POB</span>
-      <input
-        type="checkbox"
-        class="toggle toggle-primary toggle-sm justify-self-end"
-        v-model="settings.poe1ExportEnabled"
-        @click="switchBool($event, 'poe1ExportEnabled')"
+  <div class="min-w-[200px] max-w-[600px] mx-auto mt-5 px-4">
+    <h1 class="text-2xl font-semibold mb-4">PoeExport 设置</h1>
+    <hr class="border-border mb-4" />
+    <h2 class="text-lg font-medium mb-3">论坛网页优化</h2>
+    <div class="flex items-center justify-between mb-4">
+      <span class="text-sm">POE1导出POB</span>
+      <Switch
+        :model-value="settings.poe1ExportEnabled"
+        @update:model-value="
+          (v: boolean) => saveSetting('poe1ExportEnabled', v)
+        "
+        size="sm"
       />
     </div>
-    <div class="divider"></div>
-    <h2 class="text-lg">POE2交易网页优化</h2>
-    <div class="grid grid-cols-2">
-      <span>物品复制为文本（Beta）</span>
-      <input
-        type="checkbox"
-        checked="true"
-        class="toggle toggle-primary toggle-sm justify-self-end"
-        v-model="settings.trade2ItemTextEnabled"
-        @click="switchBool($event, 'trade2ItemTextEnabled')"
+    <hr class="border-border mb-4" />
+    <h2 class="text-lg font-medium mb-3">POE2交易网页优化</h2>
+    <div class="flex items-center justify-between mb-4">
+      <span class="text-sm">复制物品</span>
+      <Switch
+        :model-value="settings.trade2ItemTextEnabled"
+        @update:model-value="
+          (v: boolean) => saveSetting('trade2ItemTextEnabled', v)
+        "
+        size="sm"
       />
     </div>
-    <div class="divider"></div>
-    <h2 class="text-lg">WeGame助手网页优化</h2>
-    <div class="grid grid-cols-2">
-      <span>POE2导出POB</span>
-      <input
-        type="checkbox"
-        checked="true"
-        class="toggle toggle-primary toggle-sm justify-self-end"
-        v-model="settings.poe2ExportEnabled"
-        @click="switchBool($event, 'poe2ExportEnabled')"
+    <hr class="border-border mb-4" />
+    <h2 class="text-lg font-medium mb-3">WeGame助手网页优化</h2>
+    <div class="flex items-center justify-between mb-4">
+      <span class="text-sm">POE2导出POB</span>
+      <Switch
+        :model-value="settings.poe2ExportEnabled"
+        @update:model-value="
+          (v: boolean) => saveSetting('poe2ExportEnabled', v)
+        "
+        size="sm"
       />
     </div>
   </div>

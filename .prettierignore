@@ -1,2 +1,5 @@
 pnpm-lock.yaml
 README.md
+
+# generated files
+components/*

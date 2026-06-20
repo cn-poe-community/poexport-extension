@@ -2,7 +2,7 @@
   "name": "PoExport",
   "description": "流放之路国服导出工具",
   "private": true,
-  "version": "3.0.0",
+  "version": "3.1.0",
   "type": "module",
   "scripts": {
     "dev": "wxt",
@@ -13,34 +13,30 @@
     "zip:mv2": "wxt zip --mv2",
     "compile": "vue-tsc --noEmit",
     "postinstall": "wxt prepare",
-    "lint": "eslint .",
     "format": "prettier . --write"
   },
   "dependencies": {
-    "@tailwindcss/vite": "^4.1.18",
-    "@wxt-dev/webextension-polyfill": "^1.0.0",
+    "@lucide/vue": "^1.21.0",
+    "@tailwindcss/vite": "^4.3.1",
+    "@vueuse/core": "^14.3.0",
+    "@webext-core/messaging": "^3.0.2",
+    "class-variance-authority": "^0.7.1",
+    "clsx": "^2.1.1",
     "cn-poe-utils": "^0.0.9",
     "cn-poe2-utils": "link:E:/Dev/cn-poe2-utils",
-    "daisyui": "^5.5.14",
-    "pako": "^2.1.0",
-    "tailwindcss": "^4.1.18",
-    "vue": "^3.5.13",
-    "webextension-polyfill": "^0.12.0"
+    "reka-ui": "^2.9.10",
+    "shadcn-vue": "^2.7.4",
+    "tailwind-merge": "^3.6.0",
+    "tailwindcss": "^4.3.1",
+    "vue": "^3.5.29",
+    "vue-sonner": "^2.0.9"
   },
   "devDependencies": {
-    "@eslint/js": "^9.28.0",
-    "@types/pako": "^2.0.3",
-    "@vitejs/plugin-vue": "^5.2.4",
-    "@wxt-dev/module-vue": "^1.0.2",
-    "eslint": "^9.28.0",
-    "eslint-config-prettier": "^10.1.5",
-    "glob": "^11.0.2",
-    "prettier": "3.5.3",
-    "typescript": "5.6.3",
-    "typescript-eslint": "^8.33.1",
-    "vite": "^6.3.5",
-    "vue-tsc": "^2.2.10",
-    "wxt": "^0.20.11"
-  },
-  "packageManager": "pnpm@10.9.0+sha512.0486e394640d3c1fb3c9d43d49cf92879ff74f8516959c235308f5a8f62e2e19528a65cdc2a3058f587cde71eba3d5b56327c8c33a97e4c4051ca48a10ca2d5f"
+    "@wxt-dev/module-vue": "^1.0.3",
+    "prettier": "3.8.4",
+    "tw-animate-css": "^1.4.0",
+    "typescript": "^5.9.3",
+    "vue-tsc": "^3.2.5",
+    "wxt": "^0.20.26"
+  }
 }

@@ -1,5 +1,4 @@
-import { itemTypes } from "cn-poe2-utils/api";
-import { itemToText, LineEnding } from "cn-poe2-utils/common";
+import { type itemTypes } from "cn-poe2-utils/api";
 
 interface ItemPackage {
   id: string;
@@ -111,7 +110,7 @@ export default defineUnlistedScript(() => {
           if (!itemPack) {
             return;
           }
-          outputText = itemToText(itemPack.item, LineEnding.LF);
+          outputText = JSON.stringify(itemPack.item);
         }
         navigator.clipboard.writeText(outputText!);
       });

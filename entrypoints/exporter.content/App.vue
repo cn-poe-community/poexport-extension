@@ -1,29 +1,16 @@
 <script setup lang="ts">
-import {
-  ActionType,
-  Poe1TransformMessage,
-  TransformResult,
-} from "@/entrypoints/background";
-import Exporter from "@/components/Exporter.vue";
+import Exporter from "./Exporter.vue";
 import { GetItemsResult, GetPassiveSkillsResult } from "cn-poe-utils/api";
+import { sendMessage } from "@/utils/messaging";
 
 async function createBuilding(
   items: GetItemsResult,
   passiveSkills: GetPassiveSkillsResult,
 ): Promise<string> {
-  const message: Poe1TransformMessage = {
-    action: ActionType.POE1_BUILDING_TRANSFORM,
-    payload: {
-      items: JSON.stringify(items),
-      passiveSkills: JSON.stringify(passiveSkills),
-    },
-  };
-  const result: TransformResult = await browser.runtime.sendMessage(message);
-  if (!result.ok) {
-    throw new Error(result.message);
-  }
-
-  return result.payload!;
+  return await sendMessage("createPOE1Build", {
+    items: JSON.stringify(items),
+    passiveSkills: JSON.stringify(passiveSkills),
+  });
 }
 
 function startup() {}

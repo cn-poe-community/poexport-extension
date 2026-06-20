@@ -6,12 +6,13 @@ export default defineConfig({
   vite: () => ({
     plugins: [tailwindcss()],
   }),
-  modules: ["@wxt-dev/module-vue", "@wxt-dev/webextension-polyfill"],
+  modules: ["@wxt-dev/module-vue"],
   manifest: () => {
     const m: UserManifest = {
       host_permissions: [
         "https://*.poe.game.qq.com/",
         "https://www.wegame.com.cn/",
+        "http://120.77.179.194:8888/*",
       ],
       permissions: ["storage", "cookies", "clipboardWrite"],
       web_accessible_resources: [

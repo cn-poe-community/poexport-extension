@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { computed, reactive, ref, onMounted } from "vue";
-import * as PoeApi from "@/utils/poe/poe1_api";
+import * as PoeApi from "@/utils/poe1_api";
 import {
   Character,
   GetCharactersResult,
@@ -55,7 +55,7 @@ async function handleCharactersQuery() {
   let data: GetCharactersResult | null = null;
   try {
     data = await PoeApi.getCharacters(
-      PoeApi.TENCENT_POE_SITE,
+      PoeApi.POE_SITE_TENCENT,
       accountName,
       realm,
     );
@@ -102,9 +102,9 @@ async function handleExport() {
 
   try {
     [items, passiveSkills] = await Promise.all([
-      PoeApi.getItems(PoeApi.TENCENT_POE_SITE, accountName, character, realm),
+      PoeApi.getItems(PoeApi.POE_SITE_TENCENT, accountName, character, realm),
       PoeApi.getPassiveSkills(
-        PoeApi.TENCENT_POE_SITE,
+        PoeApi.POE_SITE_TENCENT,
         accountName,
         character,
         realm,
@@ -191,9 +191,20 @@ onMounted(() => {
     props.startup();
   }
 });
+
+async function handleTranslateClick() {
+  await sendMessage("openTransItemPage", {
+    version: "poe1",
+  });
+}
 </script>
 
 <template>
+  <span class="line-container">
+    <span>
+      <button @click="handleTranslateClick">物品翻译</button>
+    </span>
+  </span>
   <span class="line-container">
     <input
       type="text"
