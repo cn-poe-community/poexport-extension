@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { defaultSettings, Settings } from "@/utils/setting";
+import { defaultSettings, Settings, TranslationTarget } from "@/utils/setting";
 import { Switch } from "@/components/ui/switch";
 
 const settings: Settings = reactive(defaultSettings());
@@ -14,6 +14,11 @@ function saveSetting(name: keyof Settings, value: boolean) {
     settings[name] = value;
     browser.storage.local.set({ [name]: value });
   }
+}
+
+function saveTranslationTarget(value: TranslationTarget) {
+  settings.tranlationDefaultTarget = value;
+  browser.storage.local.set({ tranlationDefaultTarget: value });
 }
 
 onMounted(async () => {
@@ -59,6 +64,24 @@ onMounted(async () => {
         "
         size="sm"
       />
+    </div>
+    <hr class="border-border mb-4" />
+    <h2 class="text-lg font-medium mb-3">物品翻译</h2>
+    <div class="flex items-center justify-between mb-4">
+      <span class="text-sm">默认翻译目标</span>
+      <select
+        :value="settings.tranlationDefaultTarget"
+        @change="
+          (e: Event) =>
+            saveTranslationTarget(
+              (e.target as HTMLSelectElement).value as TranslationTarget,
+            )
+        "
+        class="px-3 py-1 text-sm border rounded-md"
+      >
+        <option value="POE1">POE1</option>
+        <option value="POE2">POE2</option>
+      </select>
     </div>
   </div>
 </template>
