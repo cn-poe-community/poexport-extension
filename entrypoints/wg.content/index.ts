@@ -4,7 +4,12 @@ export default defineContentScript({
   matches: ["https://www.wegame.com.cn/helper/poe2/*"],
   cssInjectionMode: "ui",
   async main(ctx) {
-    if (!window.location.href.includes("/helper/poe2/#/share/")) {
+    if (
+      !window.location.href.includes("/helper/poe2/#/share/") &&
+      !window.location.href.includes(
+        "/helper/poe2/?hcfrom=WeGame.helper#/share/",
+      )
+    ) {
       return;
     }
 

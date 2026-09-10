@@ -11,7 +11,7 @@ import { sendMessage } from "@/utils/messaging";
 import { CustomItems } from "../wg_items/App.vue";
 import { transformTypes } from "cn-poe2-utils/api";
 
-const pattern = new RegExp("/helper/poe2/#/share/([^/?]+)");
+const pattern = new RegExp("/helper/poe2/[^/]*#/share/([^/?]+)");
 
 function getShareCode(): string | undefined {
   const match = pattern.exec(window.location.href);

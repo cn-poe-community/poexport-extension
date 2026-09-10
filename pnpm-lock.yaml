@@ -27,11 +27,11 @@ importers:
         specifier: ^2.1.1
         version: 2.1.1
       cn-poe-utils:
-        specifier: ^0.0.9
-        version: 0.0.9
+        specifier: link:D:/Repositories/cn-poe-utils
+        version: link:../cn-poe-utils
       cn-poe2-utils:
-        specifier: link:E:/Dev/cn-poe2-utils
-        version: link:../../Dev/cn-poe2-utils
+        specifier: link:D:/Repositories/cn-poe2-utils
+        version: link:../cn-poe2-utils
       reka-ui:
         specifier: ^2.9.10
         version: 2.9.10(vue@3.5.38(typescript@5.9.3))
@@ -1148,9 +1148,6 @@ packages:
   clsx@2.1.1:
     resolution: {integrity: sha512-eYm0QWBtUrBWZWG0d386OGAw16Z995PiOVo2B7bjWSbHedGl5e0ZWaq65kOGgUSNesEIDkB9ISbTg/JK9dhCZA==}
     engines: {node: '>=6'}
-
-  cn-poe-utils@0.0.9:
-    resolution: {integrity: sha512-dpDN9k9/pIpNx+yh4At/M/sDrs/ce8GWJV5UQjITrNH4FNxvrxlbcGlipd6hhtaScv7t1xpQsvTmMpL478Y0/A==}
 
   code-block-writer@13.0.3:
     resolution: {integrity: sha512-Oofo0pq3IKnsFtuHqSF7TqBfr71aeyZDVJ0HpmqB7FBM2qEigL0iPONSCZSO9pE9dZTAxANe5XHG9Uy0YMv8cg==}
@@ -4363,8 +4360,6 @@ snapshots:
       wrap-ansi: 7.0.0
 
   clsx@2.1.1: {}
-
-  cn-poe-utils@0.0.9: {}
 
   code-block-writer@13.0.3: {}
 
